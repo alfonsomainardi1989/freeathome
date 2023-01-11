@@ -706,15 +706,12 @@ class Client(slixmpp.ClientXMPP):
                     if parameter_mask & device_filter_mask:
                         # See which option user has selected, e.g. '1'
                         parameter_value = channel_selector_parameter.find("value").text
-                        # Find that option in the list of options
-                                     
+                        # Find that option in the list of options    
+                        option = channel_selector_parameter.find("./valueEnum/option[@key='{}']".format(parameter_value))
+                        # Get filter mask from mask attribute
             
-                    
-                        opzione  =  channel_selector_parameter . find ( "./valueEnum/option[@key='{}']" . format ( parametro_valore ))
-                        # Ottieni la maschera del filtro dall'attributo della maschera
-                        filter_mask  =  int ( option . get ( 'mask' ), 16 ) # es '00000001' -> 0x00000001
-                        
-                        
+               if option is not None: 
+                            filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x0000000
                         
                 device_info = {
                         "configuration_url": "http://{}/".format(self._host),
